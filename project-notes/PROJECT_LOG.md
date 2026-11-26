@@ -46,6 +46,16 @@ Include a few fictional goalies with availability already posted so someone can 
 - **Public test result:** I opened the site without signing in. For the December 8 game at Sackville Community Arena, 1 of 5 goalies was available in the smaller pool and 7 of 25 were available in the larger pool.
 - **What broke, and how we fixed it:** I opened the Codespaces preview by mistake, then switched to the public GitHub Pages link and tested it there.
 - **Committed?** yes / no — commit message:
+
+### Session 4 — Nov 26 — driver: Henry
+
+- **Goal for this session:** Reconcile the local and remote branches and merge their changes onto main.
+- **Key prompts we gave Copilot** (paste the important ones):
+  1. Help me reconcile the two branches so that i merge back onto the main
+- **What worked:** Merged the local and remote changes onto main. Preserved the Session 3 public test details and the remote Session 2 commit status. Main is aligned with origin/main.
+- **What broke, and how we fixed it:** A conflict in project-notes/PROJECT_LOG.md. Resolved it by keeping the Session 3 details and the Session 2 commit status.
+- **Committed?** Yes — Merge remote-tracking branch 'origin/main'
+
 ---
 
 ## Things that broke (running list)
