@@ -4,7 +4,7 @@ Keep this up to date as you go — a few lines per work session is enough. It's 
 
 **Team name:** Henry
 **Startup name:** Who’s in Net?
-**Live site link:** Pending
+**Live site link:** https://henrydougan.github.io/whos-in-net/
 
 ---
 
@@ -34,8 +34,7 @@ Include a few fictional goalies with availability already posted so someone can 
   2. My website preview showed a 502 error. Please check whether the preview server is running, restart it if needed, and give me a working link to open the updated site.
 - **What worked:** Tested the December 8, 2026 game at 7:30 p.m. at Sackville Community Arena. For that game, 1 of 5 goalies was available and 7 of 25 were available.
 - **What broke, and how we fixed it:** Saw a 502 error when opening the preview.
-- **Committed?** yes / no — commit message:
-
+- **Committed?** Yes — Build first goalie finder prototype and record session 1
 ---
 
 ## Things that broke (running list)
