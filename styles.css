@@ -4,13 +4,16 @@
    ============================================================ */
 
 :root {
-  --brand: #0d6b57;        /* main colour: buttons, links */
-  --brand-dark: #1f3fae;   /* hover colour */
-  --text: #1b1f27;
-  --muted: #5d6573;
-  --background: #f6f7fb;
+  --brand: #173a53;        /* main colour: buttons, links */
+  --brand-dark: #102b40;   /* hover colour */
+  --text: #142d3e;
+  --muted: #526b79;
+  --background: #eaf5fa;
   --surface: #ffffff;      /* cards */
-  --border: #dde1ea;
+  --border: #c8dce7;
+  --ice: #d9edf6;
+  --orange: #ffb547;
+  --orange-dark: #f3a12f;
   --radius: 12px;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -27,7 +30,7 @@ body {
 
 a { color: var(--brand); }
 a:focus-visible, button:focus-visible, input:focus-visible {
-  outline: 3px solid var(--brand);
+  outline: 3px solid var(--orange-dark);
   outline-offset: 2px;
 }
 
@@ -39,22 +42,22 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   justify-content: space-between;
   gap: 12px;
   padding: 16px 24px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: var(--brand);
+  border-bottom: 1px solid var(--brand-dark);
 }
 .brand {
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--text);
+  color: #fff;
   text-decoration: none;
 }
 nav { display: flex; gap: 20px; }
 nav a {
-  color: var(--muted);
+  color: #e3f0f6;
   text-decoration: none;
   font-weight: 500;
 }
-nav a[aria-current="page"] { color: var(--brand); }
+nav a[aria-current="page"] { color: #fff; }
 
 /* ---------- Page layout ---------- */
 main {
@@ -188,8 +191,9 @@ h1 { line-height: 1.2; }
   text-decoration: none;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(28, 40, 57, 0.06);
+  border-top: 4px solid var(--brand);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(20, 45, 62, 0.08);
   transition: transform 160ms ease, border-color 160ms ease;
 }
 .role-card:hover {
@@ -203,7 +207,7 @@ h1 { line-height: 1.2; }
   height: 44px;
   margin-bottom: 28px;
   border-radius: 50%;
-  background: #e4f3ed;
+  background: var(--ice);
   color: var(--brand);
   font-weight: 800;
 }
@@ -252,6 +256,44 @@ h1 { line-height: 1.2; }
   gap: 14px;
 }
 .form-card .button { width: 100%; min-height: 48px; }
+.pool-demo {
+  margin-bottom: 20px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.pool-demo-heading h2 { margin: 0; font-size: 1.1rem; }
+.pool-demo-heading p { margin: 2px 0 0; color: var(--muted); }
+.pool-demo > .button.secondary { min-height: 44px; margin-top: 12px; }
+.pool-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.pool-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #f6fbfd;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.pool-option[aria-pressed="true"] {
+  border-color: var(--brand);
+  background: var(--ice);
+}
+.pool-option strong { font-size: 0.92rem; }
+.pool-demo-summary { margin: 12px 0 0; color: var(--muted); }
 .status-message {
   margin: 0;
   padding: 12px;
@@ -305,6 +347,13 @@ h1 { line-height: 1.2; }
 .goalie-card h3 { margin: 0; font-size: 1.05rem; }
 .goalie-card p { margin: 2px 0 0; color: var(--muted); font-size: 0.88rem; }
 .request-button { flex: 0 0 auto; margin: 0; padding: 9px 12px; }
+.button.request-button,
+.button.request-button:hover {
+  background: var(--orange);
+  color: #172f3d;
+}
+.button.request-button { min-height: 44px; }
+.button.request-button:hover { background: var(--orange-dark); }
 .empty-results {
   grid-column: 1 / -1;
   margin: 0;
@@ -349,6 +398,9 @@ h1 { line-height: 1.2; }
   }
   header nav a {
     font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
   }
   .hero { padding: 34px 0 28px; }
   .role-grid { grid-template-columns: 1fr; }

@@ -26,6 +26,7 @@
   };
 
   let postedAvailability = storage.get("goalieAvailability", []);
+  let selectedPoolSize = 5;
   document.title = STARTUP.name;
 
   function showView() {
@@ -98,6 +99,7 @@
     });
     postedAvailability.push(entry);
     storage.set("goalieAvailability", postedAvailability);
+    renderPoolComparison();
 
     const goalie = GOALIES.find(function (item) { return item.id === entry.goalieId; });
     const status = document.getElementById("goalie-status");
@@ -129,10 +131,48 @@
     });
   }
 
+  function countDemoMatches(rink, date, time, poolSize) {
+    const poolIds = {};
+    DEMO_GOALIES.slice(0, poolSize).forEach(function (goalie) {
+      poolIds[goalie.id] = true;
+    });
+
+    const availableIds = {};
+    DEMO_AVAILABILITY.concat(postedAvailability).forEach(function (entry) {
+      if (poolIds[entry.goalieId] && entry.rink === rink &&
+          entry.date === date && entry.time === time) {
+        availableIds[entry.goalieId] = true;
+      }
+    });
+    return Object.keys(availableIds).length;
+  }
+
+  function renderPoolComparison() {
+    const rink = document.getElementById("captain-rink").value;
+    const date = document.getElementById("captain-date").value;
+    const time = document.getElementById("captain-time").value;
+    const count5 = countDemoMatches(rink, date, time, 5);
+    const count25 = countDemoMatches(rink, date, time, 25);
+
+    document.getElementById("pool-count-5").textContent = count5;
+    document.getElementById("pool-count-25").textContent = count25;
+    document.querySelectorAll("[data-pool-size]").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(Number(button.dataset.poolSize) === selectedPoolSize));
+    });
+
+    const selectedCount = selectedPoolSize === 5 ? count5 : count25;
+    const game = rink && date && time
+      ? formatDate(date) + " at " + time + " · " + rink
+      : "the selected game";
+    document.getElementById("pool-comparison-summary").textContent =
+      "Showing the " + selectedPoolSize + "-goalie pool: " + selectedCount + " available for " + game + ".";
+  }
+
   function renderResults() {
     const rink = document.getElementById("captain-rink").value;
     const date = document.getElementById("captain-date").value;
     const time = document.getElementById("captain-time").value;
+    renderPoolComparison();
     const matches = findMatches(rink, date, time);
     const grid = document.getElementById("goalie-results");
     grid.replaceChildren();
@@ -190,6 +230,24 @@
   document.getElementById("captain-form").addEventListener("submit", function (event) {
     event.preventDefault();
     renderResults();
+  });
+
+  document.getElementById("sample-game-button").addEventListener("click", function () {
+    document.getElementById("captain-rink").value = DEMO_SAMPLE_GAME.rink;
+    document.getElementById("captain-date").value = DEMO_SAMPLE_GAME.date;
+    document.getElementById("captain-time").value = DEMO_SAMPLE_GAME.time;
+    renderResults();
+  });
+
+  document.querySelectorAll("[data-pool-size]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      selectedPoolSize = Number(button.dataset.poolSize);
+      renderPoolComparison();
+    });
+  });
+
+  ["captain-rink", "captain-date", "captain-time"].forEach(function (id) {
+    document.getElementById(id).addEventListener("change", renderPoolComparison);
   });
 
   renderResults();

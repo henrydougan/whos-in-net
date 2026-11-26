@@ -26,6 +26,16 @@ Include a few fictional goalies with availability already posted so someone can 
 - **What broke, and how we fixed it: It did not let me open the link at first. I fixed it by telling it to give me a preview so I can run the site.
 - **Committed?** yes / no — commit message:
 
+### Session 2 — Nov 26 — driver: Henry
+
+- **Goal for this session:** Update the colours and show how a larger goalie pool helps captains.
+- **Key prompts we gave Copilot** (paste the important ones):
+  1. Give Who’s in Net? a clean rec hockey look. Use a deep navy header, an ice-blue page background, and white cards. On the homepage, make “I’m a goalie” and “I’m a captain” look like two clear options. Use orange for the “Request goalie” button with dark text so it’s easy to read. Keep it simple and easy to use on a phone. Make these changes in styles.css and preserve the existing wording, buttons, and functionality.
+  2. My website preview showed a 502 error. Please check whether the preview server is running, restart it if needed, and give me a working link to open the updated site.
+- **What worked:** Tested the December 8, 2026 game at 7:30 p.m. at Sackville Community Arena. For that game, 1 of 5 goalies was available and 7 of 25 were available.
+- **What broke, and how we fixed it:** Saw a 502 error when opening the preview.
+- **Committed?** yes / no — commit message:
+
 ---
 
 ## Things that broke (running list)

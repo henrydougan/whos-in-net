@@ -77,6 +77,24 @@
         <p class="eyebrow">Captain</p>
         <h1>Find a goalie</h1>
       </div>
+      <section class="pool-demo" aria-labelledby="pool-demo-title">
+        <div class="pool-demo-heading">
+          <h2 id="pool-demo-title">Compare goalie pools</h2>
+          <p>Counts reflect availability for the selected game.</p>
+        </div>
+        <button class="button secondary" id="sample-game-button" type="button">Try a sample game</button>
+        <div class="pool-options" role="group" aria-label="Choose local goalie pool size">
+          <button class="pool-option" type="button" data-pool-size="5" aria-pressed="true">
+            <span>5 local goalies</span>
+            <strong><span id="pool-count-5">0</span> available</strong>
+          </button>
+          <button class="pool-option" type="button" data-pool-size="25" aria-pressed="false">
+            <span>25 local goalies</span>
+            <strong><span id="pool-count-25">0</span> available</strong>
+          </button>
+        </div>
+        <p class="pool-demo-summary" id="pool-comparison-summary" aria-live="polite"></p>
+      </section>
       <form class="form-card search-card" id="captain-form">
         <label>
           <span>Rink</span>
@@ -117,7 +135,7 @@
   </footer>
 
   <!-- Scripts load in this order: data first, then the code that uses it. -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data.js?v=demo-pools"></script>
+  <script src="app.js?v=demo-pools"></script>
 </body>
 </html>
