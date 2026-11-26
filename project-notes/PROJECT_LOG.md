@@ -4,7 +4,7 @@ Keep this up to date as you go — a few lines per work session is enough. It's 
 
 **Team name:** Henry
 **Startup name:** Who’s in Net?
-**Live site link:** Pending
+**Live site link:** https://henrydougan.github.io/whos-in-net/
 
 ---
 
@@ -34,6 +34,17 @@ Include a few fictional goalies with availability already posted so someone can 
   2. My website preview showed a 502 error. Please check whether the preview server is running, restart it if needed, and give me a working link to open the updated site.
 - **What worked:** Tested the December 8, 2026 game at 7:30 p.m. at Sackville Community Arena. For that game, 1 of 5 goalies was available and 7 of 25 were available.
 - **What broke, and how we fixed it:** Saw a 502 error when opening the preview.
+- **Committed?** yes / no — commit message:
+
+### Session 3 — Nov 26 — driver: Henry
+
+- **Goal for this session:** Publish Who’s in Net? so someone could open it without signing in.
+- **Key prompts we gave Copilot** (paste the important ones):
+  1.
+  2.
+- **What worked:** Enabled GitHub Pages and saw GitHub confirm the site was live.
+- **Public test result:** I opened the site without signing in. For the December 8 game at Sackville Community Arena, 1 of 5 goalies was available in the smaller pool and 7 of 25 were available in the larger pool.
+- **What broke, and how we fixed it:** I opened the Codespaces preview by mistake, then switched to the public GitHub Pages link and tested it there.
 - **Committed?** yes / no — commit message:
 
 ---
