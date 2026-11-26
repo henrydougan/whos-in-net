@@ -1,26 +1,33 @@
-// ============================================================
-// data.js — ALL the fake data for your prototype lives here.
-//
-// There is no database. Everything below is made up, and that is
-// on purpose: never put real people's names, emails, phone numbers
-// or addresses in this file.
-//
-// To change what appears on the Explore page, edit LISTINGS.
-// Each item is one card. Keep the same fields (id, name, category,
-// description) or ask Copilot to add new ones everywhere they're needed.
-// ============================================================
-
 const STARTUP = {
-  name: "YourStartup",
-  tagline: "One sentence that says what your startup does.",
-  pitch: "Who is your customer, what problem do they have, and why is your solution better than what they use today?"
+  name: "Who's in Net?"
 };
 
-const LISTINGS = [
-  { id: 1, name: "Sample listing A", category: "Category 1", description: "A short description of this item." },
-  { id: 2, name: "Sample listing B", category: "Category 2", description: "A short description of this item." },
-  { id: 3, name: "Sample listing C", category: "Category 1", description: "A short description of this item." },
-  { id: 4, name: "Sample listing D", category: "Category 3", description: "A short description of this item." },
-  { id: 5, name: "Sample listing E", category: "Category 2", description: "A short description of this item." },
-  { id: 6, name: "Sample listing F", category: "Category 3", description: "A short description of this item." }
+const RINKS = [
+  "Harbourview Arena",
+  "North Halifax Rink",
+  "Metro Ice Centre",
+  "Sackville Community Arena"
+];
+
+const GAME_TIMES = [
+  "6:00 PM",
+  "7:30 PM",
+  "9:00 PM",
+  "10:30 PM"
+];
+
+const GOALIES = [
+  { id: "milo", name: "Milo", level: "Recreational", initials: "M" },
+  { id: "jordan", name: "Jordan", level: "Intermediate", initials: "J" },
+  { id: "sam", name: "Sam", level: "Recreational", initials: "S" },
+  { id: "alex", name: "Alex", level: "Intermediate", initials: "A" },
+  { id: "nora", name: "Nora", level: "Recreational", initials: "N" }
+];
+
+const AVAILABILITY = [
+  { goalieId: "milo", rink: "Harbourview Arena", date: "2026-12-05", time: "7:30 PM" },
+  { goalieId: "jordan", rink: "North Halifax Rink", date: "2026-12-05", time: "9:00 PM" },
+  { goalieId: "sam", rink: "Metro Ice Centre", date: "2026-12-05", time: "6:00 PM" },
+  { goalieId: "alex", rink: "Harbourview Arena", date: "2026-12-06", time: "10:30 PM" },
+  { goalieId: "nora", rink: "Sackville Community Arena", date: "2026-12-08", time: "7:30 PM" }
 ];

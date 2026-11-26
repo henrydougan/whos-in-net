@@ -3,83 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>YourStartup</title>
-  <meta name="description" content="A student startup prototype for BSAD 281.">
+  <title>Who's in Net?</title>
+  <meta name="description" content="A student rec hockey goalie availability prototype.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- =========================================================
-       HEADER: logo text + navigation.
-       Each link points to a "view" further down the page (#home, #explore, #about).
-       ========================================================= -->
   <header class="site-header">
-    <a class="brand" href="#home" id="brand-name">YourStartup</a>
+    <a class="brand" href="#home" id="brand-name">Who's in Net?</a>
     <nav aria-label="Main">
-      <a href="#home">Home</a>
-      <a href="#explore">Explore</a>
-      <a href="#about">About</a>
+      <a href="#goalie">I'm a goalie</a>
+      <a href="#captain">I'm a captain</a>
     </nav>
   </header>
 
   <main>
-
-    <!-- =======================================================
-         VIEW 1: HOME — what you do, for whom, and why it matters.
-         ======================================================= -->
     <section id="home" data-view>
       <div class="hero">
-        <p class="eyebrow">Prototype</p>
-        <h1 id="tagline">One sentence that says what your startup does.</h1>
-        <p class="lead" id="pitch">
-          Who is your customer, what problem do they have, and why is your
-          solution better than what they use today?
-        </p>
-        <a class="button" href="#explore">See it in action</a>
+        <p class="eyebrow">Halifax rec hockey</p>
+        <h1>Find a goalie for last-minute puck drop.</h1>
+        <p class="lead">Post when you can play or find an available goalie in a few taps.</p>
       </div>
 
-      <div class="steps">
-        <div class="card">
-          <h2>1. Step one</h2>
-          <p>Describe the first thing a customer does.</p>
-        </div>
-        <div class="card">
-          <h2>2. Step two</h2>
-          <p>Describe what happens next.</p>
-        </div>
-        <div class="card">
-          <h2>3. Step three</h2>
-          <p>Describe the result the customer gets.</p>
-        </div>
+      <div class="role-grid">
+        <a class="role-card" href="#goalie">
+          <span class="role-icon" aria-hidden="true">#1</span>
+          <h2>I'm a goalie</h2>
+          <p>Share your rink, date, and game time.</p>
+          <span class="role-link">Post availability <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="role-card" href="#captain">
+          <span class="role-icon" aria-hidden="true">C</span>
+          <h2>I'm a captain</h2>
+          <p>Find a goalie who can cover your game.</p>
+          <span class="role-link">Search goalies <span aria-hidden="true">→</span></span>
+        </a>
       </div>
     </section>
 
-    <!-- =======================================================
-         VIEW 2: EXPLORE — a list built from the fake data in data.js.
-         ======================================================= -->
-    <section id="explore" data-view hidden>
-      <h1>Explore</h1>
-      <p class="muted">These examples are fake. They come from <code>data.js</code>.</p>
-
-      <label class="search">
-        <span>Search</span>
-        <input type="search" id="search-box" placeholder="Type to filter…">
-      </label>
-
-      <p class="muted" id="saved-count"></p>
-      <div class="grid" id="listing-grid"></div>
-      <p class="empty" id="empty-message" hidden>Nothing matches your search.</p>
+    <section id="goalie" data-view hidden>
+      <a class="back-link" href="#home">← Back to home</a>
+      <div class="view-heading">
+        <p class="eyebrow">Goalie</p>
+        <h1>Post your availability</h1>
+      </div>
+      <form class="form-card" id="goalie-form">
+        <label>
+          <span>Fictional goalie</span>
+          <select id="goalie-profile" required></select>
+        </label>
+        <label>
+          <span>Rink</span>
+          <select id="goalie-rink" required></select>
+        </label>
+        <div class="form-row">
+          <label>
+            <span>Date</span>
+            <input id="goalie-date" type="date" required>
+          </label>
+          <label>
+            <span>Game time</span>
+            <select id="goalie-time" required></select>
+          </label>
+        </div>
+        <button class="button" type="submit">Post availability</button>
+        <p class="status-message" id="goalie-status" role="status" hidden></p>
+      </form>
     </section>
 
-    <!-- =======================================================
-         VIEW 3: ABOUT — your team and your story.
-         ======================================================= -->
-    <section id="about" data-view hidden>
-      <h1>About us</h1>
-      <p>Tell the story of why your team started this company.</p>
-      <p>Use first names only, or no names at all — this site is public.</p>
-    </section>
+    <section id="captain" data-view hidden>
+      <a class="back-link" href="#home">← Back to home</a>
+      <div class="view-heading">
+        <p class="eyebrow">Captain</p>
+        <h1>Find a goalie</h1>
+      </div>
+      <form class="form-card search-card" id="captain-form">
+        <label>
+          <span>Rink</span>
+          <select id="captain-rink" required></select>
+        </label>
+        <div class="form-row">
+          <label>
+            <span>Date</span>
+            <input id="captain-date" type="date" required>
+          </label>
+          <label>
+            <span>Game time</span>
+            <select id="captain-time" required></select>
+          </label>
+        </div>
+        <button class="button" type="submit">Find goalies</button>
+      </form>
 
+      <div class="results-heading">
+        <h2>Available goalies</h2>
+        <p id="result-summary"></p>
+      </div>
+      <div class="goalie-grid" id="goalie-results"></div>
+
+      <aside class="confirmation" id="confirmation" role="status" aria-live="polite" hidden>
+        <div class="confirmation-check" aria-hidden="true">✓</div>
+        <div>
+          <p class="confirmation-title">Demo request sent</p>
+          <p id="confirmation-text"></p>
+        </div>
+      </aside>
+    </section>
   </main>
 
   <!-- Keep this footer. Your site must say it is a student project. -->

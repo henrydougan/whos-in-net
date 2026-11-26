@@ -7,12 +7,6 @@
 (function () {
   "use strict";
 
-  // ----------------------------------------------------------
-  // 1. Saving things in the browser (localStorage).
-  //    This only remembers things on THIS browser on THIS device.
-  //    Your teammates and your customers will NOT see it.
-  //    A real product would need a server and a database for that.
-  // ----------------------------------------------------------
   const storage = {
     get: function (key, fallback) {
       try {
@@ -31,19 +25,9 @@
     }
   };
 
-  let savedIds = storage.get("savedIds", []);
-
-  // ----------------------------------------------------------
-  // 2. Put the startup's name and pitch on the page.
-  // ----------------------------------------------------------
+  let postedAvailability = storage.get("goalieAvailability", []);
   document.title = STARTUP.name;
-  document.getElementById("brand-name").textContent = STARTUP.name;
-  document.getElementById("tagline").textContent = STARTUP.tagline;
-  document.getElementById("pitch").textContent = STARTUP.pitch;
 
-  // ----------------------------------------------------------
-  // 3. Views: show one section at a time, based on the #link in the address bar.
-  // ----------------------------------------------------------
   function showView() {
     const requested = (window.location.hash || "#home").slice(1);
     const views = document.querySelectorAll("[data-view]");
@@ -56,7 +40,7 @@
       view.hidden = view.id !== current;
     });
 
-    document.querySelectorAll("nav a").forEach(function (link) {
+    document.querySelectorAll("header nav a").forEach(function (link) {
       if (link.getAttribute("href") === "#" + current) {
         link.setAttribute("aria-current", "page");
       } else {
@@ -69,73 +53,145 @@
 
   window.addEventListener("hashchange", showView);
 
-  // ----------------------------------------------------------
-  // 4. Explore page: build one card per listing.
-  //    We use textContent (not innerHTML) so text is always shown
-  //    as text — a basic security habit.
-  // ----------------------------------------------------------
-  const grid = document.getElementById("listing-grid");
-  const searchBox = document.getElementById("search-box");
-  const emptyMessage = document.getElementById("empty-message");
-  const savedCount = document.getElementById("saved-count");
-
-  function makeCard(item) {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = item.category;
-
-    const title = document.createElement("h2");
-    title.textContent = item.name;
-
-    const text = document.createElement("p");
-    text.textContent = item.description;
-
-    const isSaved = savedIds.indexOf(item.id) !== -1;
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "button secondary";
-    button.textContent = isSaved ? "Saved ✓" : "Save";
-    button.setAttribute("aria-pressed", isSaved ? "true" : "false");
-    button.addEventListener("click", function () {
-      toggleSaved(item.id);
+  function addOptions(select, values) {
+    values.forEach(function (value) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
     });
-
-    card.append(tag, title, text, button);
-    return card;
   }
 
-  function toggleSaved(id) {
-    if (savedIds.indexOf(id) === -1) {
-      savedIds.push(id);
-    } else {
-      savedIds = savedIds.filter(function (savedId) { return savedId !== id; });
+  const goalieProfile = document.getElementById("goalie-profile");
+  GOALIES.forEach(function (goalie) {
+    const option = document.createElement("option");
+    option.value = goalie.id;
+    option.textContent = goalie.name + " — " + goalie.level;
+    goalieProfile.appendChild(option);
+  });
+
+  ["goalie-rink", "captain-rink"].forEach(function (id) {
+    addOptions(document.getElementById(id), RINKS);
+  });
+  ["goalie-time", "captain-time"].forEach(function (id) {
+    addOptions(document.getElementById(id), GAME_TIMES);
+  });
+
+  document.getElementById("goalie-date").value = "2026-12-05";
+  document.getElementById("captain-date").value = "2026-12-05";
+  document.getElementById("goalie-time").value = "7:30 PM";
+  document.getElementById("captain-time").value = "7:30 PM";
+  document.getElementById("goalie-rink").value = "Harbourview Arena";
+  document.getElementById("captain-rink").value = "Harbourview Arena";
+
+  document.getElementById("goalie-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const entry = {
+      goalieId: goalieProfile.value,
+      rink: document.getElementById("goalie-rink").value,
+      date: document.getElementById("goalie-date").value,
+      time: document.getElementById("goalie-time").value
+    };
+    postedAvailability = postedAvailability.filter(function (item) {
+      return !(item.goalieId === entry.goalieId && item.rink === entry.rink &&
+        item.date === entry.date && item.time === entry.time);
+    });
+    postedAvailability.push(entry);
+    storage.set("goalieAvailability", postedAvailability);
+
+    const goalie = GOALIES.find(function (item) { return item.id === entry.goalieId; });
+    const status = document.getElementById("goalie-status");
+    status.textContent = goalie.name + " is posted as available for " + formatDate(entry.date) + " at " + entry.time + ", " + entry.rink + ".";
+    status.hidden = false;
+  });
+
+  function formatDate(dateString) {
+    const date = new Date(dateString + "T12:00:00");
+    return new Intl.DateTimeFormat("en-CA", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function findMatches(rink, date, time) {
+    const allAvailability = AVAILABILITY.concat(postedAvailability);
+    const matches = allAvailability.filter(function (entry) {
+      return entry.rink === rink && entry.date === date && entry.time === time;
+    });
+    const seen = {};
+    return matches.map(function (entry) {
+      return GOALIES.find(function (goalie) { return goalie.id === entry.goalieId; });
+    }).filter(function (goalie) {
+      if (!goalie || seen[goalie.id]) return false;
+      seen[goalie.id] = true;
+      return true;
+    });
+  }
+
+  function renderResults() {
+    const rink = document.getElementById("captain-rink").value;
+    const date = document.getElementById("captain-date").value;
+    const time = document.getElementById("captain-time").value;
+    const matches = findMatches(rink, date, time);
+    const grid = document.getElementById("goalie-results");
+    grid.replaceChildren();
+    document.getElementById("confirmation").hidden = true;
+    document.getElementById("result-summary").textContent =
+      formatDate(date) + " · " + time + " · " + rink;
+
+    if (matches.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "empty-results";
+      empty.textContent = "No goalies posted for this game yet.";
+      grid.appendChild(empty);
+      return;
     }
-    storage.set("savedIds", savedIds);
-    renderListings();
-  }
 
-  function renderListings() {
-    const query = searchBox.value.trim().toLowerCase();
-    const matches = LISTINGS.filter(function (item) {
-      const text = (item.name + " " + item.category + " " + item.description).toLowerCase();
-      return text.indexOf(query) !== -1;
+    matches.forEach(function (goalie) {
+      const card = document.createElement("article");
+      card.className = "goalie-card";
+
+      const identity = document.createElement("div");
+      identity.className = "goalie-identity";
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = goalie.initials;
+      avatar.setAttribute("aria-hidden", "true");
+      const nameBlock = document.createElement("div");
+      const name = document.createElement("h3");
+      name.textContent = goalie.name;
+      const level = document.createElement("p");
+      level.textContent = goalie.level;
+      nameBlock.append(name, level);
+      identity.append(avatar, nameBlock);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "button request-button";
+      button.textContent = "Request goalie";
+      button.addEventListener("click", function () {
+        showConfirmation(goalie.name, rink, date, time);
+      });
+
+      card.append(identity, button);
+      grid.appendChild(card);
     });
-
-    grid.replaceChildren.apply(grid, matches.map(makeCard));
-    emptyMessage.hidden = matches.length > 0;
-    savedCount.textContent = savedIds.length === 0
-      ? "Tap Save on anything you like."
-      : "You've saved " + savedIds.length + " item(s) on this device.";
   }
 
-  searchBox.addEventListener("input", renderListings);
+  function showConfirmation(name, rink, date, time) {
+    const confirmation = document.getElementById("confirmation");
+    document.getElementById("confirmation-text").textContent =
+      name + " · " + rink + " · " + formatDate(date) + " · " + time;
+    confirmation.hidden = false;
+    confirmation.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
 
-  // ----------------------------------------------------------
-  // 5. Start up.
-  // ----------------------------------------------------------
-  renderListings();
+  document.getElementById("captain-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    renderResults();
+  });
+
+  renderResults();
   showView();
 })();
