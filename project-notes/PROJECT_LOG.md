@@ -64,14 +64,18 @@ Include a few fictional goalies with availability already posted so someone can 
 
 ## What a real version would need
 
-Everything we wanted but faked or left out — real logins, a real database, payments, security, moderation, an app, staff, etc. For each one, say **why** it's needed and roughly **how hard or expensive** you think it would be.
-
-| Feature we faked or skipped | Why a real company would need it | How hard / expensive? |
-|---|---|---|
-| | | |
+| Real accounts | Each goalie needs to control their own availability, and captains need to know who accepted a request. | Medium. I would use a login service and connect each account to the right profile. |
+| Shared database | A goalie could post from their phone and a captain could see it from theirs. Right now, availability is saved in one browser. | Medium. I would need a hosted database and backups. |
+| Booking confirmations | Two captains might request the same goalie for the same time. Once the goalie accepts one game, the other captain needs to know. | Medium to high. I would need to track requests and test what happens when two come in at once. |
+| Email notifications | A captain needs to hear quickly if a goalie accepts or cancels, especially close to puck drop. | Low to medium. I could use an email service and pay more as the number of messages grows. |
+| Membership billing | The site would need to collect membership fees and let people cancel. Captains would still pay goalies directly by e-transfer. | Medium. A billing service could handle subscriptions and charge a fee on each payment. |
+| User support | If a goalie keeps accepting games and then failing to show up, captains need someone they can report it to. | Low cost at first. Reviewing reports would take more time as more teams joined. |
 
 ## Reflection (fill in at the end)
 
 1. What surprised you most about building software with AI?
+When I started on Wednesday, I had to ask what a repository was. I figured making the website would be the part I’d get stuck on. Once I got my prompt into Copilot, though, it made a first version of Who’s in Net? that was pretty close to what I had in mind. The moment that stood out to me was trying the sample game at Sackville Community Arena. For the December 8 game at 7:30, I had one goalie available in the group of five. When I switched to the group of 25, I had seven options for that same game. I’ve been in situations where even having one more person to text would’ve helped. It was cool to see that idea actually work on the screen.
 2. Which parts were easy, and which were hard? Why do you think that is?
+The easiest part was deciding what should happen when someone clicks “I’m a captain.” When my goalie drops out, I already know where and when we’re playing. All I want to know is who can get there. I could explain that part to Copilot because I’ve had to do it myself. GitHub was where I got stuck. At one point Copilot said it had built the site, but when I clicked Ports, the tab was empty. I kept looking for a link that wasn’t there. Once I asked Copilot to start the preview, a link showed up and I could open it. Saving my work was confusing too. I was used to pressing Command-S and being done, so it took me a while to understand why I also had to commit and sync my changes.
 3. If a competitor had the same AI tool, how long would it take them to copy your site?
+I think someone could copy my site in a weekend. If they already knew how to use GitHub, they could probably do it faster than I did. They could click through my site, see what happens when a goalie posts or a captain makes a request, and give Copilot pretty clear instructions. Since my goalies are fictional, a competitor could make their own sample profiles and have a similar demo up and running. The part that would take longer is getting real goalies in Halifax to keep posting when they’re free. As a captain, if I found a goalie through the site and they showed up in time for our game, I’d remember that the next time I needed someone. That’s the part I think would be hardest for another site to copy.
